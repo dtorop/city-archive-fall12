@@ -86,3 +86,12 @@ import random
 for x in range(random.randrange(10)):
     print "Testing."
 {% endhighlight %}
+
+### Lionel's L
+
+{% highlight python %}
+for x in range(16):
+    print "the l " * 2
+for x in range(4):
+    print "the l " * 8
+{% endhighlight %}
