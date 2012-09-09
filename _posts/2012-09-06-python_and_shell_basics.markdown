@@ -87,7 +87,7 @@ for x in range(random.randrange(10)):
     print "Testing."
 {% endhighlight %}
 
-### Lionel's L
+### The L
 
 {% highlight python %}
 for x in range(16):
