@@ -6,7 +6,7 @@ title: Main Page
 City College - DIAP - Workshop: Medium, Fall 2012
 -------
 
-### Classes
+### Class technical notes
 
 {% for post in site.posts %}
 <p>{{ post.date | date: "%Y-%m-%d" }} - <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
