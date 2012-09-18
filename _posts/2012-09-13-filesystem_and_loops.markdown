@@ -162,3 +162,12 @@ Text art with loops:
 for x in range(8):
    print "oooOOOOooo" * x
 {% endhighlight %}
+
+## Creating files with Python
+
+{% highlight python %}
+f = open("foo.txt", "w")
+f.write("This is a line ending in a newline.\n")
+f.write("This line just ends, all of a sudden.")
+f.close()
+{% endhighlight %}
