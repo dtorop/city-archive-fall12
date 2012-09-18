@@ -1,13 +1,27 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ page.title }} - Workshop: Medium, Fall 2012</title>
-    <link rel="stylesheet" href="{{ site.baseurl }}/css/code.css">
-  </head>
-  <body>
-    {% include nav.html %}
-    {{ content }}
-  </body>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>{{ page.title }} - Workshop: Medium, Fall 2012</title>
+        <meta name="description" content="City College Class Notes, Workshop: Medium - {{ page.title }}">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="{{ site.baseurl }}/css/normalize.css">
+        <link rel="stylesheet" href="{{ site.baseurl }}/css/main.css">
+        <link rel="stylesheet" href="{{ site.baseurl }}/css/code.css">
+    </head>
+    <body>
+         <div class="container">
+              {% include nav.html %}
+         </div>
+         <div class="site-content">
+           <div class="container">
+              {{ content }}
+            </div>
+         </div>
+    </body>
 </html>

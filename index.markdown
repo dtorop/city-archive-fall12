@@ -3,7 +3,7 @@ layout: base
 title: Main Page
 ---
 
-City College - DIAP - Workshop: Medium, Fall 2012
+CCNY DIAP, Fall 2012
 -------
 
 ### Class technical notes
