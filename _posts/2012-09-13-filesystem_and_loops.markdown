@@ -5,9 +5,11 @@ title: The Filesystem, Variables, and Loops
 
 Type in these examples! Try them out! Vary them! Think about Borges' infinite library! Make work!
 
-## The Filesystem
+## Terminal/Shell Examples
 
 Use the Terminal to run all these commands.
+
+### The Filesystem
 
 What is the current directory?
 
@@ -97,7 +99,39 @@ mkdir good_art
 mv art_code/* good_art
 {% endhighlight %}
 
-## Variables
+## Python examples
+
+Try the following examples in Python. You can do this by running Python from the command line and typing code in. You will get a response right away:
+
+{% highlight bash %}
+$ python
+Python 2.7.3rc2 (default, Apr 22 2012, 22:30:17) 
+Type "help", "copyright", "credits" or "license" for more information.
+>>> print "Hello, world."
+Hello, world.
+>>> 
+{% endhighlight %}
+
+Or create a file in TextWrangler with the code, save it somewhere convenient (say, your `Documents` directory), then run your code from the Terminal.
+
+For example, if you created a file via TextWrangler which was:
+
+{% highlight python %}
+print "Hello, world."
+{% endhighlight %}
+
+and saved in `Documents` as `hello.py`, you could then in Terminal run it:
+
+{% highlight bash %}
+$ cd Documents
+$ python hello.py
+Hello, world.
+$
+{% endhighlight %}
+
+The advantage of using Python directly is that you get an immediate response, and can formulate later commands based on what just happened. The advantage of typing out code into a file and running it from Terminal is that it is much easier to edit and revise the code.
+
+### Variables
 
 Assign values to variables then print the values:
 
@@ -119,7 +153,7 @@ print b - a
 print b * a
 {% endhighlight %}
 
-## Loops
+### Loops
 
 Print `something` five times:
 
@@ -163,7 +197,7 @@ for x in range(8):
    print "oooOOOOooo" * x
 {% endhighlight %}
 
-## Creating files with Python
+### Creating files with Python
 
 {% highlight python %}
 f = open("foo.txt", "w")
