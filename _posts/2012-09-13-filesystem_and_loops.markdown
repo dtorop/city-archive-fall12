@@ -205,3 +205,11 @@ f.write("This is a line ending in a newline.\n")
 f.write("This line just ends, all of a sudden.")
 f.close()
 {% endhighlight %}
+
+### Saving your Python word art to a file
+
+So you've made your beautiful ASCII art, and want to get it into LyX. A few techniques:
+
+- Highlight the text in Terminal, and choose `Edit > Copy`, then paste it into LyX
+- Create a Python script via TextWrangler, and when you run it in the Terminal, run it via `python myscript.py > output.txt`. This will run `myscript.py` (substitute a name as you'd like) and send the output to `output.txt` (again, choose a name you'd like) in the current directory. You can then bring the output into LyX via `File > Import > Plain text...`. You can also open the `.txt` file in TextWrangler, and then copy/paste it into LyX.
+- Use the "Creating files with Python" technique to create a text file which has ASCII art. You'll need to figure out how to use `f.write` instead of `print`.
