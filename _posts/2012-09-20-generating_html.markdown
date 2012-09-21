@@ -3,7 +3,7 @@ layout: class
 title: Generating HTML and more about directories
 ---
 
-## Creating Directorires
+## Creating Directories
 
 ### In the Finder
 
