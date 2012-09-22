@@ -26,6 +26,18 @@ rmdir foo     # remove current directory "foo" (which must be empty)
 
 In Finder-world, we talk about folders. In Terminal/Shell/Python world, it is more common to call them directories, but this refers to the same thing.
 
+Some more advanced commands:
+
+{% highlight bash %}
+ls -R foo     # list directory `foo` and recursively all directories
+              # within `foo`
+
+# WARNING! potentially very dangerous:
+rm -r foo     # remove `foo` and all files and directories within `foo`
+{% endhighlight %}
+
+The latter command could be a good way to remove a lot of valuable data. Be careful!
+
 ### In Python
 
 When you are writing a Python script, either in TextWrangler (which you then run via Python from the terminal), or directly in Python interactive mode (when you type `python` and see the `>>>` prompt):
