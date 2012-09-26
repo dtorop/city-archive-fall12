@@ -247,4 +247,12 @@ f.close()
 
 Note that for a while the outer `span` was a `div`.
 
+### Writing your own code 
+
+Write your Python code in TextWrangler (modifying the examples above is a good place to start). Save it to a file (say, `htmling.py`), then run it in the Terminal (say, via `python htmling.py`). If you get an error, just fix up the file in TextWrangler and run it again from the Terminal.
+
+Once it runs without error, you can open up the output file in the browser (`File > Open` then choose where your code sent the HTML, say `hello.html`) to see how things look. Tweak your Python file in TextWrangler as needed, re-run it in the Terminal, then refresh the browser to see how the changes look.
+
+Bring in printouts from the browser of the reuslts (via `File > Print`). You could also make screenshots, if that is to your taste.
+
 Good luck...
