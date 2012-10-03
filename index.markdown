@@ -15,3 +15,7 @@ CCNY DIAP, Fall 2012
 {% endif %}
 </p>
 {% endfor %}
+
+<br/>
+
+<small>Dan Torop, email dtorop at City</small>
