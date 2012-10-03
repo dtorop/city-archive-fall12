@@ -1,7 +1,9 @@
 ---
 layout: class
-title: Amazon EC2 (notes for in class)
+title: (advance posted class notes) Amazon EC2
 ---
+
+*No need to worry about these until this Thursday evening. Then, of course, worry about then as needed.*
 
 ## Setting up a remote server (EC2 Instance)
 
@@ -113,7 +115,7 @@ aws_secret_access_key = qrnPsBLubXNlZBDut9GJREopdf5LsdDSsC/LyG4s
 
 * Using `File > Save to FTP/SFTP Server...`, save the file to the home directory of your EC2 instance, under the name `.boto` (note the initial period).
 
-## A simple script to write a file to a S3 server
+## A simple script to write a text file to a S3 server
 
 {% highlight python %}
 import boto
@@ -127,6 +129,40 @@ key.set_contents_from_filename("hello.txt")
 {% endhighlight %}
 
 Type this script into TextWrangler, save it to `hello.py` on your EC2 instance. Connect to your EC2 Instance via Terminal and `ssh`. Type `python hello.py` to run your script.
+
+## A script to write two interlinked HTML files
+
+{% highlight python %}
+import boto
+
+f = open("page1.html", "w")
+f.write("<html>\n")
+f.write("<head>\n")
+f.write("  <title>Page One</title>\n")
+f.write("<body>\n")
+f.write("  <h1>Page One</h1>\n")
+f.write("<p><a href='page2.html'>Click here.</a></p>\n")
+f.write("</body>\n")
+f.write("</html>\n")
+f.close()
+
+f = open("page2.html", "w")
+f.write("<html>\n")
+f.write("<head>\n")
+f.write("  <title>Page Two</title>\n")
+f.write("<body>\n")
+f.write("  <h1>Page Two</h1>\n")
+f.write("<p><a href='page1.html'>Click here?</a></p>\n")
+f.write("</body>\n")
+f.write("</html>\n")
+f.close()
+
+conn = boto.connect_s3()
+bucket = conn.get_bucket("dtorop.diap.ccny.edu")
+for page in ["page1.html", "page2.html"]:
+    key = bucket.new_key(page)
+    key.set_contents_from_filename(page)
+{% endhighlight %}
 
 ## Terminate your EC2 instance
 
