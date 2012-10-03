@@ -1,0 +1,135 @@
+---
+layout: class
+title: Amazon EC2 (notes for in class)
+---
+
+## Setting up a remote server (EC2 Instance)
+
+An Instance is a web server in the cloud. That is, a computer living somewhere in an Amazon warehouse to which you have network access.
+
+1. Go to [http://aws.amazon.com/console/](http://aws.amazon.com/console/)
+2. Click **Sign in to the AWS Console**  and logon with your ID
+3. Under Amazon Web Services, select EC2
+4. Under Navigation, make sure the *Region* is **US East (N. Virginia)**
+5. Under Amazon EC2 Console Dashboard, click **Launch Instance**
+6. You will see a **Create a New Instance** pop-up. Select **Quick Launch Wizard** if it isn't already selected.
+7. In the Quick Launch Wizard:
+    1. Under **Name Your Instance**, type something like `diap1`.
+    2. Under **Choose a Key Pair**, choose **Create New**, and type a name such as `diap_ec2`.
+    3. Click **Download**, you should receive a key file named `diap_ec2.pem` (or as you named it) in your `Downloads` folder
+	4. Make sure the server selected is **Amazon Linux AMI 2012.03 64 bit** (which is *free tier eligible*). Click **continue** (or **Ubuntu Server 12.04.1 LTS**)
+    5. On the next screen click **Launch**
+    6. You should see a **Your instance is now launching** screen
+    7. Click the *View your instances on the Instances page* link
+7. This gets you to the **My Instances** page. Wait until the instance state is green (*running*)
+8. Select your instance. In the bottom pane you should see `EC2 Instance: i-909998e4` (or such, the instance id will be different) and then a hostname, for example `ec2-50-17-119-40.compute-1.amazonaws.com`. Select and copy this hostname. This is the way will be able to talk to your server via TextWrangler and Terminal.
+
+## Setting up your access credentials (key pair)
+
+You only need to do this once for each computer you use. This will identify your computer to the EC2 Instance, so you can connect to it.
+
+Open the Terminal, and type the following:
+
+{% highlight bash %}
+cd
+mkdir .ssh
+mv Downloads/diap_ec2.pem .ssh
+chmod go-r .ssh/diap_ec2.pem
+echo 'IdentityFile ~/.ssh/diap_ec2.pem' > ~/.ssh/config
+{% endhighlight %}
+
+Check in with me if for some reason the `mkdir` command gives an error. That would mean you already have a setup to work with remote servers, hence we should be careful not to mess with it.
+
+If you create any more instance, you can now under **Choose a Key Pair** choose **Select Existing**, and select the key pair you made. One key pair will let you talk to all of your servers.
+
+## Setting up TextWrangler to talk your server
+
+To save files to your EC2 instance, use TextWrangler's `File > Save to FTP/SFTP Server...` menu item (or `Save a Copy To FTP/SFTP Server...`). You can load files from the EC2 instance via TextWrangler's `File > Open from FTP/SFTP Server...` menu.
+
+In the dialog which appears
+
+1. For *Server:* paste in your hostname from the **My Instances** page. It should be something like `ec2-50-17-119-40.compute-1.amazonaws.com` (the numbers will be different).
+2. Turn on the *SFTP* checkbox.
+3. Under *User:* type `ubuntu`.
+4. leave *Password:* blank -- your key pair takes care of this.
+5. Click **Connect**.
+
+## Connecting to your EC2 Instance via Terminal
+
+You can use Terminal to get the commandline of your instance.
+
+Type
+
+{% highlight bash %}
+ssh ubuntu@ec2-50-17-119-40.compute-1.amazonaws.com
+{% endhighlight %}
+
+(but use your instance hostname, which will be similar but with different numers). You’ll see something like:
+
+    $ ssh ec2-user@ec2-50-17-119-40.compute-1.amazonaws.com
+    The authenticity of host 'ec2-50-17-119-40.compute-1.amazonaws.com (50.17.119.40)' can't be established.
+    RSA key fingerprint is 9b:8a:01:8f:88:a9:16:dd:71:ec:5d:86:b2:9f:1c:6e.
+    Are you sure you want to continue connecting (yes/no)? 
+
+Type `yes` (in the "real world" we'd be a bit more paranoid, but for now...). You will probably only see this message after you startup the server.
+
+You should now see a bunch of logon messages, beginning with
+
+    Welcome to Ubuntu 12.04.1 LTS (GNU/Linux 3.2.0-29-virtual x86_64)
+
+then finally a `$` prompt:
+
+    ubuntu@ip-10-80-6-44:~$ 
+
+or similar. Now whatever you type is going via Terminal to the EC2 instance.
+
+You can use all the commands you have gotten used to (`ls`, `mkdir`, `cd`, etc.). To put Python files onto your server, save them with TextWrangler as described above. To run them, use the `python` command, as you would on a local server.
+
+To logout of your instance (and go back to using Terminal to talk to your local computer), use the `exit` command.
+
+## Letting your EC2 Instance talk to your S3 website
+
+You need to give your EC2 Instance the key to your S3 website so it can upload files.
+
+* In the top right of the Management Console, click on your name. From the dropdown menu, choose **Security Credentials**
+* You may need to type your password again. You will see the security credentials page. Scroll down to **Access Keys**
+* Click on *Show* the **Secret Access Key**.
+* Create a new file in TextWrangler to store your keys. Paste into it the following:
+
+{% highlight cfg %}
+[Credentials]
+aws_access_key_id = 
+aws_secret_access_key = 
+{% endhighlight %}
+
+* Copy and paste your **Accesss Key ID** after `aws_access_key_id`, and your **Secret Access Key** after `aws_secret_access_key`.
+* Your file will look something like the below (except with your keys):
+
+{% highlight cfg %}
+[Credentials]
+aws_access_key_id = DBCJKVV54LPVK3OO22P
+aws_secret_access_key = qrnPsBLubXNlZBDut9GJREopdf5LsdDSsC/LyG4s
+{% endhighlight %}
+
+* Using `File > Save to FTP/SFTP Server...`, save the file to the home directory of your EC2 instance, under the name `.boto` (note the initial period).
+
+## A simple script to write a file to a S3 server
+
+{% highlight python %}
+import boto
+f = open("hello.txt", "w")
+f.write("Hello, world.")
+f.close()
+conn = boto.connect_s3()
+bucket = conn.get_bucket("dtorop.diap.ccny.edu")
+key = bucket.new_key("hello.txt")
+key.set_contents_from_filename("hello.txt")
+{% endhighlight %}
+
+Type this script into TextWrangler, save it to `hello.py` on your EC2 instance. Connect to your EC2 Instance via Terminal and `ssh`. Type `python hello.py` to run your script.
+
+## Terminate your EC2 instance
+
+When you are done with an instance, as well as all its data, you can "delete" it. On the EC2 Instances page, choose `Terminate` under *Instance Actions*. Under the free tier you can keep one instance running continuously (until the free tier runs out at the end of the year).
+
+Be sure that you terminate your instance by the end of the year.

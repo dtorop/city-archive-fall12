@@ -2,3 +2,4 @@ safe: true
 lsi: false
 pygments: true
 baseurl: /city-archive-fall12
+future: false
