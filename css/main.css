@@ -166,9 +166,10 @@ a {
     margin-left: 0px;
 }
 
-.highlight {
+.highlight pre {
+    padding: 4px;
     background-color: rgb(246, 249, 252);
-    margin: 3px;
+    border: 1px solid rgb(230,232,234);
 }
 
 

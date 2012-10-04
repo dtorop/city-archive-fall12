@@ -103,7 +103,7 @@ mv art_code/* good_art
 
 Try the following examples in Python. You can do this by running Python from the command line and typing code in. You will get a response right away:
 
-{% highlight bash %}
+{% highlight pycon %}
 $ python
 Python 2.7.3rc2 (default, Apr 22 2012, 22:30:17) 
 Type "help", "copyright", "credits" or "license" for more information.
@@ -122,7 +122,7 @@ print "Hello, world."
 
 and saved in `Documents` as `hello.py`, you could then in Terminal run it:
 
-{% highlight bash %}
+{% highlight console %}
 $ cd Documents
 $ python hello.py
 Hello, world.

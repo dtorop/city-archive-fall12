@@ -68,20 +68,26 @@ ssh ubuntu@ec2-50-17-119-40.compute-1.amazonaws.com
 
 (but use your instance hostname, which will be similar but with different numers). You’ll see something like:
 
-    $ ssh ec2-user@ec2-50-17-119-40.compute-1.amazonaws.com
-    The authenticity of host 'ec2-50-17-119-40.compute-1.amazonaws.com (50.17.119.40)' can't be established.
-    RSA key fingerprint is 9b:8a:01:8f:88:a9:16:dd:71:ec:5d:86:b2:9f:1c:6e.
-    Are you sure you want to continue connecting (yes/no)? 
+{% highlight console %}
+$ ssh ec2-user@ec2-50-17-119-40.compute-1.amazonaws.com
+The authenticity of host 'ec2-50-17-119-40.compute-1.amazonaws.com (50.17.119.40)' can't be established.
+RSA key fingerprint is 9b:8a:01:8f:88:a9:16:dd:71:ec:5d:86:b2:9f:1c:6e.
+Are you sure you want to continue connecting (yes/no)? 
+{% endhighlight %}
 
 Type `yes` (in the "real world" we'd be a bit more paranoid, but for now...). You will probably only see this message after you startup the server.
 
 You should now see a bunch of logon messages, beginning with
 
-    Welcome to Ubuntu 12.04.1 LTS (GNU/Linux 3.2.0-29-virtual x86_64)
+{% highlight console %}
+Welcome to Ubuntu 12.04.1 LTS (GNU/Linux 3.2.0-29-virtual x86_64)
+{% endhighlight %}
 
 then finally a `$` prompt:
 
-    ubuntu@ip-10-80-6-44:~$ 
+{% highlight console %}
+ubuntu@ip-10-80-6-44:~$ 
+{% endhighlight %}
 
 or similar. Now whatever you type is going via Terminal to the EC2 instance.
 
