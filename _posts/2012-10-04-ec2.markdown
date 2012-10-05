@@ -1,9 +1,7 @@
 ---
 layout: class
-title: (advance posted class notes) Amazon EC2
+title: Amazon EC2
 ---
-
-*No need to worry about these until this Thursday evening. Then, of course, worry about then as needed.*
 
 ## Setting up a remote server (EC2 Instance)
 
@@ -19,7 +17,7 @@ An Instance is a web server in the cloud. That is, a computer living somewhere i
     1. Under **Name Your Instance**, type something like `diap1`.
     2. Under **Choose a Key Pair**, choose **Create New**, and type a name such as `diap_ec2`.
     3. Click **Download**, you should receive a key file named `diap_ec2.pem` (or as you named it) in your `Downloads` folder
-	4. Make sure the server selected is **Amazon Linux AMI 2012.03 64 bit** (which is *free tier eligible*). Click **continue** (or **Ubuntu Server 12.04.1 LTS**)
+	4. Make sure the server selected is **Ubuntu Server 12.04.1 LTS** (which is *free tier eligible*). Click **continue**
     5. On the next screen click **Launch**
     6. You should see a **Your instance is now launching** screen
     7. Click the *View your instances on the Instances page* link
@@ -37,7 +35,7 @@ cd
 mkdir .ssh
 mv Downloads/diap_ec2.pem .ssh
 chmod go-r .ssh/diap_ec2.pem
-echo 'IdentityFile ~/.ssh/diap_ec2.pem' > ~/.ssh/config
+echo 'IdentityFile ~/.ssh/diap_ec2.pem' > .ssh/config
 {% endhighlight %}
 
 Check in with me if for some reason the `mkdir` command gives an error. That would mean you already have a setup to work with remote servers, hence we should be careful not to mess with it.
@@ -56,6 +54,8 @@ In the dialog which appears
 4. leave *Password:* blank -- your key pair takes care of this.
 5. Click **Connect**.
 
+The first time you connect to your instance, TextWrangler may warn you that it can't authenticate the server (part of computer security is not just you proving your identity to a server, but the server proving its identity for you). For now, this is OK, allow TextWrangler to connect.
+
 ## Connecting to your EC2 Instance via Terminal
 
 You can use Terminal to get the commandline of your instance.
@@ -66,7 +66,7 @@ Type
 ssh ubuntu@ec2-50-17-119-40.compute-1.amazonaws.com
 {% endhighlight %}
 
-(but use your instance hostname, which will be similar but with different numers). You’ll see something like:
+(but use your instance hostname, which will be similar but with different numers). You may see something like:
 
 {% highlight console %}
 $ ssh ec2-user@ec2-50-17-119-40.compute-1.amazonaws.com
@@ -75,7 +75,7 @@ RSA key fingerprint is 9b:8a:01:8f:88:a9:16:dd:71:ec:5d:86:b2:9f:1c:6e.
 Are you sure you want to continue connecting (yes/no)? 
 {% endhighlight %}
 
-Type `yes` (in the "real world" we'd be a bit more paranoid, but for now...). You will probably only see this message after you startup the server.
+Type `yes` (in the "real world" we'd be a bit more paranoid, but for now...).
 
 You should now see a bunch of logon messages, beginning with
 
@@ -125,9 +125,13 @@ aws_secret_access_key = qrnPsBLubXNlZBDut9GJREopdf5LsdDSsC/LyG4s
 
 {% highlight python %}
 import boto
+
+# create the file on the EC2 Instance
 f = open("hello.txt", "w")
 f.write("Hello, world.")
 f.close()
+
+# copy from the EC2 instance to S3
 conn = boto.connect_s3()
 bucket = conn.get_bucket("dtorop.diap.ccny.edu")
 key = bucket.new_key("hello.txt")
@@ -141,6 +145,7 @@ Type this script into TextWrangler, save it to `hello.py` on your EC2 instance. 
 {% highlight python %}
 import boto
 
+# create page 1
 f = open("page1.html", "w")
 f.write("<html>\n")
 f.write("<head>\n")
@@ -152,6 +157,7 @@ f.write("</body>\n")
 f.write("</html>\n")
 f.close()
 
+# create page 2
 f = open("page2.html", "w")
 f.write("<html>\n")
 f.write("<head>\n")
@@ -163,6 +169,7 @@ f.write("</body>\n")
 f.write("</html>\n")
 f.close()
 
+# upload both pages to S3
 conn = boto.connect_s3()
 bucket = conn.get_bucket("dtorop.diap.ccny.edu")
 for page in ["page1.html", "page2.html"]:
@@ -170,8 +177,44 @@ for page in ["page1.html", "page2.html"]:
     key.set_contents_from_filename(page)
 {% endhighlight %}
 
+The upload to S3 segment does something a bit fancier in the `for page` loop than I presented in class.
+
 ## Terminate your EC2 instance
 
 When you are done with an instance, as well as all its data, you can "delete" it. On the EC2 Instances page, choose `Terminate` under *Instance Actions*. Under the free tier you can keep one instance running continuously (until the free tier runs out at the end of the year).
 
 Be sure that you terminate your instance by the end of the year.
+
+## Some miscellaneous notes
+
+### UNIX directories
+
+* `.` represents the current directory
+* `..` represents the parent of the current directory
+* `~` represents the home directory
+
+### Unicode
+
+Character sets can get tricky. ASCII is the simplest. UTF-8 is the new standard for the web, and includes lots of languages and symbols. If you are using any non-ASCII characters (anything but letters, numbers, and basic punctuation), it is best in your web page to specify this. Put the following in the `head` of the page:
+
+{% highlight html %}
+<meta charset="utf-8">
+{% endhighlight %}
+
+### Images
+
+To link to an image, use a HTML tag such as
+
+{% highlight html %}
+<img src="picture.jpg"/>
+{% endhighlight %}
+
+Then prepare your picture (save it as a JPEG), and upload it to the same S3 bucket as your HTML file. You can also link to images on other websites, by figuring out their web address in your browser and using this as the `src`:
+
+{% highlight html %}
+<img src="http://www1.ccny.cuny.edu/images/logo2.jpg"/>
+{% endhighlight %}
+
+## Assignment for next class
+
+Make fan fiction pages dedicated to your favorite website. Make more than one page. `View Source` is your friend.
