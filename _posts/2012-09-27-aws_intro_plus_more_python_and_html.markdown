@@ -206,6 +206,7 @@ f=open("kaprow.html", "w")
 f.write("<html>\n")
 f.write("<head>\n")
 f.write("  <title>Say hi to Cage</title>\n")
+f.write("</head>\n")
 f.write("<body>\n")
 pet_colors = ["red","orange","yellow","gray"]
 for x in range(20,5000,5):
